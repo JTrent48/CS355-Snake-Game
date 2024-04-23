@@ -10,9 +10,15 @@
 
 
 //function protoypes
+int getRanNum();
 void makeBdr();
 void moveSnake();
 
+
+
+int getRanNum(){
+        return rand() % (max - min + 1) + min;
+}
 
 
 
