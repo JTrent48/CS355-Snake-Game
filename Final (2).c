@@ -79,14 +79,40 @@ void moveSnake(){
     int x[100] = {COLS/2, COLS/2-1, COLS/2 -2, COLS/2 -3, COLS/2 - 4}; //x location for snake
     int y[100] = {LINES/2, LINES/2, LINES/2, LINES/2, LINES/2}; //y location for snake
     int length = 5; //Initial length of snake
+    int inDir = getRandomNumber(1, 4);
     int direction = KEY_RIGHT; //Initial direction of snake
 
     cbreak();
     noecho();
     curs_set(0);
     keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
-
+    nodelay(stdscr, TRUE); 
+     switch (inDir)
+    {
+    // Face right
+    case 1:
+        x[0] = 0;
+        y[0] = 1;
+        break;
+    // Face left
+    case 2:
+        x[0] = 0;
+        y[0] = -1;
+        break;
+    // Face up
+    case 3:
+        x[0] = -1;
+        y[0] = 0;
+        break;
+    // Face down
+    case 4:
+        x[0] = 1;
+        y[0] = 0;
+        break;
+    default:
+        break;
+    }
+        
     while(1){
         int ch = getch();
          if (ch != ERR){
