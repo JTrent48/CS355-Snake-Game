@@ -208,8 +208,13 @@ void moveSnake(){
         }
 
         if(trophyCollision(x, y, length)){
-        Trophy();
-        length+= trophyValue;
+            length+= trophyValue;
+            Trophy();
+            
+        for(int i = length - trophyValue; i < length; i++){
+            x[i] = x[i-1];
+            y[i] = y[i-1];                            
+        }        
        }
         
         speed = (1000000 / length);
