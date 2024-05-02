@@ -32,49 +32,49 @@ int speed;
 //Makes border
 void makeBdr(){
     
-    int i = 0;
-    int j = 0;
-    int b = 0;
-    int l = 0;
+    int top = 0;
+    int left = 0;
+    int bottom = 0;
+    int right = 0;
     int width = COLS; //Columns
     int height = LINES; //Rows
     initscr();
     clear();
         
         move(0, 0);
-        while(i < COLS){ //Prints the top boarder
+        while(top < COLS){ //Prints the top boarder
             addstr("-");
-            i++;   
+            top++;   
     
         }
 
         move(0, 0);
-        while(j < LINES){ //Creates boarder on left side
-            move(j, 0);
+        while(left < LINES){ //Creates boarder on left side
+            move(left, 0);
             //addstr("\n");
             addstr("|");
 
-            j++;
+            left++;
             
              }
 
         move(0, COLS-1); //Move to top right corner
         
-        while(l < LINES){ //Creates boarder on right side
+        while(right < LINES){ //Creates boarder on right side
             //addstr("\n");
-            move(l, COLS-1);
+            move(right, COLS-1);
             addstr("|");
 
-            l++;
+            right++;
 
              
         }
 
         move(LINES-1, 0); //Move to bottom left corner
 
-        while(b < COLS){ //Prints the bottom boarder
+        while(bottom < COLS){ //Prints the bottom boarder
             addstr("-");
-            b++; 
+            bottom++; 
         } 
     refresh();
       
