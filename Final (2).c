@@ -47,7 +47,7 @@ int random_direction;
 int directions[] = {KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT};
 
 
-//Function to Create the border around the screen
+//Function to Create the border around the screen    -Joey C.
 void makeBdr(){
     int top = 0;
     int left = 0;
@@ -95,7 +95,7 @@ void makeBdr(){
       
 }
 
-//Checks for collisions
+//Checks for collisions  -Abbie Mathew
 bool checkCollision(int x[], int y[], int length){
     int width = COLS;
     int height = LINES;
@@ -114,7 +114,7 @@ bool checkCollision(int x[], int y[], int length){
 }
 
 
-//Check for trophy collisions
+//Check for trophy collisions    -Abbie Mathew
 bool trophyCollision(int x[], int y[], int length){
     if(x[0] == trophyX && y[0] == trophyY){
         trophyExists = false; //Trophy is consumer, so set it to not exist
@@ -125,7 +125,7 @@ bool trophyCollision(int x[], int y[], int length){
 }
 
 
-//Spawns in trophy
+//Spawns in trophy    -Joey C
 void Trophy(){
     if(!trophyExists){
         trophyX = rand() % (COLS - 2) + 1; //avoid spawning on x border
@@ -140,7 +140,7 @@ void Trophy(){
     }
 }
 
-//Move snake method
+//Move snake method    -Jordyn T
 void moveSnake(){
     //int x = COLS/2;
     //int y = LINES/2;
@@ -265,7 +265,7 @@ void moveSnake(){
     }
     
 }
-
+//Jordyn T
 int main(int argc, char *argv[]){
 
     initscr();
