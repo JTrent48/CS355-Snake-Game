@@ -212,7 +212,7 @@ void moveSnake(){
         length+= trophyValue;
        }
         
-        speed = (1000000 / length) / 2;
+        speed = (1000000 / length);
         mvaddch(' ', y[length - 1], x[length - 1]);
    
 
