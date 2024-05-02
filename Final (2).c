@@ -1,16 +1,10 @@
-//First Deliverable
-
-
+//CS355 Snake Game             Jordyn T, Abbie M, Joey C
 #include <stdbool.h>
 #include <unistd.h>
 #include <ncurses.h>
 
 
 
-#define DELAY 30000
-
-int random_direction;
-int directions[] = {KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT};
 //function protoypes
 void makeBdr();
 void moveSnake();
@@ -27,6 +21,8 @@ int trophyCreationTime;
 bool trophyExists = false;
 int length;
 int speed;
+int random_direction;
+int directions[] = {KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT};
 
 
 //Makes border
@@ -123,7 +119,7 @@ void Trophy(){
         //mvaddch(trophyY, trophyX, '*');
         mvprintw(trophyY, trophyX, "%d", trophyValue);
 
-        //length +=trophyValue;
+        length +=trophyValue;
     }
 }
 
@@ -230,8 +226,8 @@ void moveSnake(){
 
         
     }
-    //2 * (COLS + LINES) - 4
-    if(length >= 20){
+    
+    if(length == 2 * (COLS + LINES) - 4){
         endwin();
         clear();
         mvprintw(LINES/2, (COLS-8)/2, "You win!");
@@ -239,14 +235,9 @@ void moveSnake(){
         sleep(2);
         return;
     }
- 
-        
-        
         refresh();
         usleep(speed);
-        
     }
-
     
 }
 
