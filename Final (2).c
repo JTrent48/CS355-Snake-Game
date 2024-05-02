@@ -1,39 +1,61 @@
-//CS355 Snake Game             Jordyn T, Abbie M, Joey C
+/*
+CS355 Snake Game             
+Jordyn T, Joey C, Abbie M
+*/
+
+//Imports
 #include <stdbool.h>
 #include <unistd.h>
 #include <ncurses.h>
 
 
 
-//function protoypes
+//Function Protoypes
+
+//Function for the creation of the border around the screen
 void makeBdr();
+//Function for the movement of the snake based on user input
 void moveSnake();
+//Function the checks for collision (the snake dying)
 bool checkCollision(int x[], int y[], int length);
+//Function for spawning trophies in the snake pit
 void Trophy();
+//Function the checks for trophy collision
 bool trophyCollision(int x[], int y[], int length);
 
 //Global variables
+
+//X Coordinate for Trophy
 int trophyX ;
+//Y coordinate for Trophy
 int trophyY ;
+//Value of Trophy
 int trophyValue;
+//Expiration Time of Trophy
 int trophyExpiryTime;
+//Creation Time of Trophy
 int trophyCreationTime;
+//Boolean for existance of trophy
 bool trophyExists = false;
+//length of snake
 int length;
+//speed of snake
 int speed;
+//random direction number
 int random_direction;
+//directions of the snake
 int directions[] = {KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT};
 
 
-//Makes border
+//Function to Create the border around the screen
 void makeBdr(){
-    
     int top = 0;
     int left = 0;
     int bottom = 0;
     int right = 0;
     int width = COLS; //Columns
     int height = LINES; //Rows
+    //clear the screen
     initscr();
     clear();
         
@@ -60,10 +82,7 @@ void makeBdr(){
             //addstr("\n");
             move(right, COLS-1);
             addstr("|");
-
             right++;
-
-             
         }
 
         move(LINES-1, 0); //Move to bottom left corner
@@ -75,8 +94,6 @@ void makeBdr(){
     refresh();
       
 }
-
-
 
 //Checks for collisions
 bool checkCollision(int x[], int y[], int length){
@@ -100,10 +117,10 @@ bool checkCollision(int x[], int y[], int length){
 //Check for trophy collisions
 bool trophyCollision(int x[], int y[], int length){
     if(x[0] == trophyX && y[0] == trophyY){
-        trophyExists = false;
+        trophyExists = false; //Trophy is consumer, so set it to not exist
         return true;
     }
-
+    //collision with trophy detected
     return false;
 }
 
@@ -113,9 +130,9 @@ void Trophy(){
     if(!trophyExists){
         trophyX = rand() % (COLS - 2) + 1; //avoid spawning on x border
         trophyY = rand() % (LINES - 2) + 1; //avoid spawning on y border
-        trophyValue = rand() %9 + 1;
-        trophyExists = true;
-        trophyCreationTime = time(NULL);
+        trophyValue = rand() %9 + 1; //randomly assigns a value to the trophy
+        trophyExists = true; //set the flag to indiacte the existence of a trophy
+        trophyCreationTime = time(NULL); //records creation time of the trophy
         //mvaddch(trophyY, trophyX, '*');
         mvprintw(trophyY, trophyX, "%d", trophyValue);
 
@@ -138,6 +155,7 @@ void moveSnake(){
     //Initialize first trophy
     Trophy();
 
+    //configures ncurses settings
     cbreak();
     noecho();
     curs_set(0);
@@ -145,10 +163,12 @@ void moveSnake(){
     nodelay(stdscr, TRUE);
 
     
-
+    //Main loop for the snake game
     while(1){
+        //get user input for snake movement
         int ch = getch();
          if (ch != ERR){
+            //control the direction of the snake based on user input
             switch(ch){ //Controls direction of snake when keys are not pressed
                 case KEY_UP:
                     if (direction != KEY_DOWN)
@@ -166,7 +186,7 @@ void moveSnake(){
                     if (direction != KEY_RIGHT)
                     direction = KEY_LEFT;
                     break;
-                case 'q':
+                case 'q': //Quit the game if 'q' is pressed
                     endwin();
                     return;
 
@@ -174,7 +194,7 @@ void moveSnake(){
     }
 
         
-
+        //update the snake's body posirions based on uts direction
         if(length > 1){
         for(int i = length -1; i>0; i--){
             x[i] = x[i-1];
@@ -182,8 +202,6 @@ void moveSnake(){
         }
         
     }
-
-        
 
         switch(direction){ //Controls the direction of the snake based on the keys
             case KEY_UP:
@@ -201,22 +219,23 @@ void moveSnake(){
         }
 
         
-
+        //checks for collisions
         if(checkCollision(x, y, length)){
             endwin();
             return;
         }
-
+        //checks for trophy collisions
         if(trophyCollision(x, y, length)){
-            length+= trophyValue;
-            Trophy();
-            
+            length+= trophyValue; //increases the length of the snake
+            Trophy(); //Spawns a new trophy
+        
+        //Shift the body of the snake to acommodate new length
         for(int i = length - trophyValue; i < length; i++){
             x[i] = x[i-1];
             y[i] = y[i-1];                            
         }        
        }
-        
+        //adjust  speed based on a snake length
         speed = (1000000 / length);
         mvaddch(' ', y[length - 1], x[length - 1]);
    
@@ -231,7 +250,7 @@ void moveSnake(){
 
         
     }
-    
+    //If the snake length reaches have the length of the perimeter, display a win message
     if(length == 2 * (COLS + LINES) - 4){
         endwin();
         clear();
@@ -240,6 +259,7 @@ void moveSnake(){
         sleep(2);
         return;
     }
+        //refresh the screen and add delay for the next move
         refresh();
         usleep(speed);
     }
@@ -252,15 +272,17 @@ int main(int argc, char *argv[]){
     
     srand(time(NULL));
     
+    //randomly selects the initial direction of the snake
     int numDirections = sizeof(directions) / sizeof(directions[0]);
     random_direction = directions[rand() % numDirections];
     int num_positions = 10; //Number of positions trophy can spawn in
 
+    //initialize the game
     makeBdr();
     Trophy();
     moveSnake();
+
+    //ends ncurses mode and exit the program
     endwin();
     return 0;
-}
-
-        
+} 
